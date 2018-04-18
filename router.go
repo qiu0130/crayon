@@ -3,7 +3,6 @@ package crayon
 import (
 	"net/http"
 	"regexp"
-	"unicode"
 	"fmt"
 	"strings"
 	"log"
@@ -260,12 +259,17 @@ func (rtr *Router) serve(rw http.ResponseWriter, req *http.Request) {
 	crw := &customResponseWriter{
 		ResponseWriter: rw,
 	}
-	//reqContext := req.WithContext(
-	//	context.WithValue(
-	//		req.Context(),
-	//		,
-	//		&
-	//	))
+	reqContext := req.WithContext(
+		context.WithValue(
+			req.Context(),
+			crayonContextKey,
+			&CrayonContext{
+				Params: params,
+				Route: route,
+				AppContext: rtr.AppContext,
+			},
+		),
+	)
 
 
 	for _, handler := range route.Handlers {
